@@ -4,8 +4,11 @@ category: '[jammingSource]'
 
 templates:
   imports: from gnuradio import jammingSource
-  make: jammingSource.TDMSingle(${period}, ${targetFreq})
-
+  make: jammingSource.TDMSingle(${samp_rate}, ${freq}, ${period})
+  callbacks: 
+  - set_sampling_freq(${samp_rate})
+  - set_frequency(${freq})
+  - set_period(${period})
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
 #     Keys include:
 #     * id (makes the value accessible as keyname, e.g. in the make entry)
@@ -13,10 +16,21 @@ templates:
 #     * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
 #     * default
 parameters:
-- id: parametername_replace_me
-  label: FIX ME:
+- id: samp_rate
+  label: Sample Rate
+  dtype: real
+  default: 'samp_rate'
+
+- id: freq
+  label: Dopplers
   dtype: string
-  default: You need to fill in your grc/jammingSource_TDMSingle.block.yaml
+  default: '0'
+
+- id: period
+  label: Period
+  dtype: real
+  default: '1e-3'
+
 #- id: ...
 #  label: ...
 #  dtype: ...
@@ -28,14 +42,11 @@ parameters:
 #      * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
 #      * vlen (optional - data stream vector length. Default is 1)
 #      * optional (optional - set to 1 for optional inputs. Default is 0)
-inputs:
-#- label: ...
-#  domain: ...
-#  dtype: ...
-#  vlen: ...
-#  optional: ...
 
 outputs:
+  - domain: stream
+    dtype: fc32
+  
 #- label: ...
 #  domain: ...
 #  dtype: ...

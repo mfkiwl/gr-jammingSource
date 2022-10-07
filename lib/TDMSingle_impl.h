@@ -17,8 +17,11 @@ class TDMSingle_impl : public TDMSingle
 {
 private:
     double d_sampling_freq;
-    std::vector<double> d_frequency;
+    std::vector<float> d_frequency;
     double d_period;
+    int d_cur_freq_index;
+    int d_sample_per_freq;
+    int d_cur_sample_count;
     gr::fxpt_nco d_nco;
 
 public:
